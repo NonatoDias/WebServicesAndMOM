@@ -1,14 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXToolbar?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.FXMLDocumentController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
+<AnchorPane id="AnchorPane" prefHeight="587.0" prefWidth="717.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="chat.FXMLDocumentController">
+   <children>
+      <Pane prefHeight="587.0" prefWidth="723.0">
+         <children>
+            <Pane layoutX="263.0" layoutY="54.0" prefHeight="532.0" prefWidth="461.0" style="-fx-background-color: #efefef;">
+               <children>
+                  <Pane layoutY="470.0" prefHeight="62.0" prefWidth="461.0" style="-fx-background-color: white;">
+                     <children>
+                        <JFXTextField layoutX="38.0" layoutY="9.0" prefHeight="31.0" prefWidth="331.0" />
+                        <JFXButton buttonType="RAISED" layoutX="384.0" layoutY="16.0" prefHeight="31.0" prefWidth="60.0" style="-fx-background-color: #009688;" text="add" textFill="WHITE" />
+                     </children>
+                  </Pane>
+                  <JFXToolbar prefHeight="35.0" prefWidth="461.0">
+                     <left>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="Nonato" BorderPane.alignment="CENTER" />
+                     </left>
+                     <right>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="&gt;" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="*" BorderPane.alignment="CENTER" />
+                     </center>
+                  </JFXToolbar>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="47.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem" textAlignment="CENTER" textFill="#2c2c2c" />
+                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="21.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/user-1.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="384.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem" textAlignment="CENTER" textFill="#2c2c2c" />
+                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="387.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/user-1.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="120.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem 2" textAlignment="CENTER" textFill="#2c2c2c" />
+                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="23.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/user-1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutY="54.0" prefHeight="532.0" prefWidth="265.0" style="-fx-background-color: #e1e1e1e;">
+               <children>
+                  <Group layoutX="25.0" layoutY="21.0">
+                     <children>
+                        <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/user-1.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="195.0" style="-fx-padding: 5px 0 0 65px;" text="Nonato Dias" />
+                        <Label layoutX="60.0" layoutY="26.0" prefHeight="21.0" prefWidth="119.0" style="-fx-padding: 0 0 0 5px;" text="online" textFill="#9a9a9a" />
+                     </children>
+                  </Group>
+                  <Group layoutX="26.0" layoutY="87.0">
+                     <children>
+                        <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/user-2.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="195.0" style="-fx-padding: 5px 0 0 65px;" text="Nonato Dias" />
+                        <Label layoutX="60.0" layoutY="26.0" prefHeight="21.0" prefWidth="119.0" style="-fx-padding: 0 0 0 5px;" text="online" textFill="#9a9a9a" />
+                     </children>
+                  </Group>
+                  <Group layoutX="26.0" layoutY="152.0">
+                     <children>
+                        <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/user-3.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="21.0" prefWidth="195.0" style="-fx-padding: 5px 0 0 65px;" text="Nonato Dias" />
+                        <Label layoutX="60.0" layoutY="26.0" prefHeight="21.0" prefWidth="119.0" style="-fx-padding: 0 0 0 5px;" text="online" textFill="#9a9a9a" />
+                     </children>
+                  </Group>
+                  <JFXButton buttonType="RAISED" layoutX="38.0" layoutY="485.0" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: white;" text="Sair" textFill="#575757" />
+               </children>
+            </Pane>
+            <JFXToolbar prefHeight="54.0" prefWidth="723.0" style="-fx-background-color: #009688; -fx-padding: 0 15px 0 0;">
+               <left>
+                  <Label alignment="CENTER" prefHeight="21.0" prefWidth="254.0" text="Usuários" textFill="WHITE" BorderPane.alignment="CENTER" />
+               </left>
+            </JFXToolbar>
+         </children>
+      </Pane>
+   </children>
 </AnchorPane>
