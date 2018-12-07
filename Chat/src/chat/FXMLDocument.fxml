@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="587.0" prefWidth="717.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="chat.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="587.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.FXMLDocumentController">
    <children>
       <Pane prefHeight="587.0" prefWidth="723.0">
          <children>
@@ -19,8 +19,8 @@
                <children>
                   <Pane layoutY="470.0" prefHeight="62.0" prefWidth="461.0" style="-fx-background-color: white;">
                      <children>
-                        <JFXTextField layoutX="38.0" layoutY="9.0" prefHeight="31.0" prefWidth="331.0" />
-                        <JFXButton buttonType="RAISED" layoutX="384.0" layoutY="16.0" prefHeight="31.0" prefWidth="60.0" style="-fx-background-color: #009688;" text="add" textFill="WHITE" />
+                        <JFXTextField fx:id="jtfMessage" layoutX="38.0" layoutY="9.0" prefHeight="31.0" prefWidth="331.0" />
+                        <JFXButton fx:id="btnAddMessage" buttonType="RAISED" layoutX="384.0" layoutY="16.0" prefHeight="31.0" prefWidth="60.0" style="-fx-background-color: #009688;" text="add" textFill="WHITE" />
                      </children>
                   </Pane>
                   <JFXToolbar prefHeight="35.0" prefWidth="461.0">
