@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<Group fx:id="groupUser" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/user-1.png" />
+         </image>
+      </ImageView>
+      <Label prefHeight="21.0" prefWidth="195.0" style="-fx-padding: 5px 0 0 65px;" text="Nonato Dias" />
+      <Label layoutX="60.0" layoutY="26.0" prefHeight="21.0" prefWidth="119.0" style="-fx-padding: 0 0 0 5px;" text="online" textFill="#9a9a9a" />
+   </children>
+</Group>

@@ -7,14 +7,25 @@ package chat;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ws.services.ChatImplService;
 import ws.services.ChatInterface;
 
@@ -34,19 +45,16 @@ public class FXMLDocumentController implements Initializable {
     private JFXButton btnAddMessage;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
+    private ScrollPane scrollUsers;
+   
     
     private ChatInterface inverterservice = null;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        
-        ChatImplService service = new ChatImplService();
-        inverterservice = service.getChatImplPort();
+        scrollUsers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        /*ChatImplService service = new ChatImplService();
+        inverterservice = service.getChatImplPort();*/
         
         btnAddMessage.setOnAction((e)->{
             addMessage();
@@ -59,13 +67,26 @@ public class FXMLDocumentController implements Initializable {
         });
     }   
     
-    public void addUser(String name){
-        inverterservice.addUser(name);
+    public void addUser(String name) throws IOException{
+        Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
+        ImageView imgView = (ImageView) groupUser.getChildren().get(0);
+        //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
+        Label labName = (Label) groupUser.getChildren().get(1); 
+        labName.setText(name);
+        VBox vbox = (VBox) scrollUsers.getContent();
+        vbox.setSpacing(7);
+        System.out.println(vbox.getChildren().size());
+        vbox.getChildren().add(groupUser);
+        //inverterservice.addUser(name);
     }
 
     private void addMessage() {
-        addUser(jtfMessage.getText());
-        jtfMessage.setText("");
+        try {
+            addUser(jtfMessage.getText());
+            jtfMessage.setText("");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }

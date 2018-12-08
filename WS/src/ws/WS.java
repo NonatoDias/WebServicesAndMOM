@@ -23,11 +23,22 @@ public class WS {
      */
     public static void main(String[] args) {
         
-        WsUtil.log("Starting Server ...");
+        /*WsUtil.log("Starting Server ...");
         
         ChatImpl cs = new ChatImpl(); 
         Endpoint.publish(BASE_URL + CHAT_SERVICE, cs);
-        WsUtil.log("Listining on "+ BASE_URL + CHAT_SERVICE + "\n");
+        WsUtil.log("Listining on "+ BASE_URL + CHAT_SERVICE + "\n");*/
+        
+        try {
+            UserQueue userQ = new UserQueue();
+            userQ.init();
+            userQ.createUser("queue1");
+            
+            userQ.sendMessage("queue1", "oi nonato 2");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
 }
