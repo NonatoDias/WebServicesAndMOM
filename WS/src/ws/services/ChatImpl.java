@@ -5,7 +5,12 @@
  */
 package ws.services;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.jms.JMSException;
 import javax.jws.WebService;
+import javax.naming.NamingException;
+import ws.UserQueue;
 import ws.util.WsUtil;
 
 /**
@@ -14,11 +19,21 @@ import ws.util.WsUtil;
  */
 @WebService(endpointInterface = "ws.services.ChatInterface")
 public class ChatImpl implements ChatInterface{
+    UserQueue userQ = null;
+
+    public ChatImpl() {
+        createUserQueue();
+    }
 
     @Override
     public Boolean addUser(String user) {
-        WsUtil.log("New user added: " + user);
-        return true;
+        try {
+            return userQ.addUser(user);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -44,4 +59,19 @@ public class ChatImpl implements ChatInterface{
         return null;
     }
     
+    public void createUserQueue(){
+        try {
+            userQ = new UserQueue();
+            userQ.init();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                userQ.close();
+                
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
 }

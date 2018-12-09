@@ -5,6 +5,7 @@
  */
 package ws;
 
+import java.net.MalformedURLException;
 import java.util.Hashtable;
 import javax.jms.JMSException;
 import javax.jms.QueueConnection;
@@ -17,6 +18,8 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.exolab.jms.administration.AdminConnectionFactory;
+import org.exolab.jms.administration.JmsAdminServerIfc;
 
 /**
  *
@@ -28,16 +31,31 @@ public class QueueHandler {
     private QueueConnectionFactory qfactory = null;
     private QueueConnection qconnection = null;
     private QueueSession qsession = null;
+    
+    private String url = "tcp://localhost:3035/";
+    private String user = "admin";
+    private String password = "openjms";
+    
+    JmsAdminServerIfc admin = null;
 
     public QueueHandler() {
         properties.put(
                 Context.INITIAL_CONTEXT_FACTORY,
                 "org.exolab.jms.jndi.InitialContextFactory"
         );
-        properties.put(Context.PROVIDER_URL, "tcp://localhost:3035/");
+        properties.put(Context.PROVIDER_URL, url);
     }
     
-    public void init() throws NamingException, JMSException{
+    public void createAdmin() throws JMSException, MalformedURLException{
+        if(admin == null){
+            admin = AdminConnectionFactory.create(url, user, password);
+            log("New admin ok\n");
+        }else{
+            logErr("Admin has already been created");
+        }
+    }
+    
+    public void initSession() throws NamingException, JMSException{
         context = new InitialContext(properties);
         qfactory = (QueueConnectionFactory) context.lookup("ConnectionFactory");
         qconnection = qfactory.createQueueConnection();
@@ -46,17 +64,35 @@ public class QueueHandler {
         log("qsession ok");
     }
     
+    public boolean destinationExists(String destination) throws JMSException{
+          return admin.destinationExists(destination);
+    }
+    
+    public boolean addDestination(String name) throws JMSException{
+        log("adding destination "+name);
+        if(!destinationExists(name)){
+            admin.addDestination(name, Boolean.TRUE);
+            log("Added");
+            return true;
+        }
+        logErr("Sorry, destination "+ name+ " can not be created. It already exists!");
+        return false;
+    }
+    
+    public boolean removeDestination(String name) throws JMSException{
+        log("Removing destination "+name);
+        if (admin.removeDestination(name)) {
+            log("Removed");
+            return true;
+        }
+        logErr("Failed to remove destination " + name);
+        return false;
+    }
+    
     public void startQConnection() throws JMSException{
         log("Starting qconnection ...");
         qconnection.start();
         log("qconnection started");
-    }
-    
-    public javax.jms.Queue createQueue(String qName) 
-            throws NamingException, JMSException
-    {
-        log("Creating user "+qName+" ...");
-        return qsession.createQueue(qName);
     }
     
     public QueueReceiver createReciver(String qName) 
@@ -93,4 +129,8 @@ public class QueueHandler {
     public void log(String text){
         System.out.println(text);
     }
+    public void logErr(String text){
+        System.err.println(text);
+    }
+    
 }

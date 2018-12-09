@@ -53,8 +53,8 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         scrollUsers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        /*ChatImplService service = new ChatImplService();
-        inverterservice = service.getChatImplPort();*/
+        ChatImplService service = new ChatImplService();
+        inverterservice = service.getChatImplPort();
         
         btnAddMessage.setOnAction((e)->{
             addMessage();
@@ -68,16 +68,17 @@ public class FXMLDocumentController implements Initializable {
     }   
     
     public void addUser(String name) throws IOException{
-        Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
-        ImageView imgView = (ImageView) groupUser.getChildren().get(0);
-        //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
-        Label labName = (Label) groupUser.getChildren().get(1); 
-        labName.setText(name);
-        VBox vbox = (VBox) scrollUsers.getContent();
-        vbox.setSpacing(7);
-        System.out.println(vbox.getChildren().size());
-        vbox.getChildren().add(groupUser);
-        //inverterservice.addUser(name);
+        if(inverterservice.addUser(name)){
+            Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
+            ImageView imgView = (ImageView) groupUser.getChildren().get(0);
+            //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
+            Label labName = (Label) groupUser.getChildren().get(1); 
+            labName.setText(name);
+            VBox vbox = (VBox) scrollUsers.getContent();
+            vbox.setSpacing(7);
+            System.out.println(vbox.getChildren().size());
+            vbox.getChildren().add(groupUser);
+        }
     }
 
     private void addMessage() {
