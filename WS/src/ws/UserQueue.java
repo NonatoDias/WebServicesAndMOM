@@ -35,7 +35,6 @@ public class UserQueue {
     public void init() throws NamingException, JMSException, MalformedURLException{
         handler = new QueueHandler();
         handler.createAdmin();
-        
         /*this.onReceived();
         sender = handler.createSender(QUEUE_NAME);
         receiver = handler.createReciver(QUEUE_NAME);*/
@@ -45,21 +44,13 @@ public class UserQueue {
         return handler.addDestination(user);
     }
     
-    public void removeUser(String user) throws NamingException, JMSException{
-        handler.removeDestination(user);
+    public boolean removeUser(String user) throws NamingException, JMSException{
+        return handler.removeDestination(user);
     }
     
-    /*public void sendMessage(String user, String text) 
-            throws NamingException, 
-            JMSException{
-        handler.log("Sendig message: "+text + " - To: "+ user);
-        handler.createSender(user).send(
-            handler.createMessage(text)
-        );
-    }*/
-    
-    public void getAllUsers() throws JMSException{
-
+    public String [] getAllUsers() throws JMSException{
+        String [] aux = {"A"};
+        return aux; 
     }
     
     public void onReceived() throws NamingException, JMSException{

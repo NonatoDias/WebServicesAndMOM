@@ -49,7 +49,7 @@ public class QueueHandler {
     public void createAdmin() throws JMSException, MalformedURLException{
         if(admin == null){
             admin = AdminConnectionFactory.create(url, user, password);
-            log("New admin ok\n");
+            log("New AdminConnectionFactory ok\n");
         }else{
             logErr("Admin has already been created");
         }

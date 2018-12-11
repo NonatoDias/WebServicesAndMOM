@@ -44,8 +44,13 @@ public class ChatImpl implements ChatInterface{
 
     @Override
     public Boolean removeUser(String user) {
-        WsUtil.log("User removed: " + user);
-        return null;
+        try {
+            return userQ.removeUser(user);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
