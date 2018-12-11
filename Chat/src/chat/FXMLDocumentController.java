@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,26 +95,21 @@ public class FXMLDocumentController implements Initializable {
         });
     }   
     
-    public boolean addUser(String name) throws IOException{
-        if(name.length() == 0){
-            return false;
-        }
+    public void addUser(String name) throws IOException{
+        Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
+        ImageView imgView = (ImageView) groupUser.getChildren().get(0);
+        //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
+        Label labName = (Label) groupUser.getChildren().get(1); 
+        labName.setText(name);
+        VBox vbox = (VBox) scrollUsers.getContent();
+        vbox.setSpacing(7);
         
-        if(chatInterface.addUser(name)){
-            loggedUser = name;
-            
-            Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
-            ImageView imgView = (ImageView) groupUser.getChildren().get(0);
-            //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
-            Label labName = (Label) groupUser.getChildren().get(1); 
-            labName.setText(name);
-            VBox vbox = (VBox) scrollUsers.getContent();
-            vbox.setSpacing(7);
-            System.out.println(vbox.getChildren().size());
-            vbox.getChildren().add(groupUser);
-            return true;
-        }
-        return false;
+        groupUser.setOnMouseClicked((e)->{
+            Group source = (Group) e.getSource();
+            Label u = (Label) source.getChildren().get(1); 
+            System.out.println(u.getText());
+        });
+        vbox.getChildren().add(groupUser);
     }
 
     private void addMessage() {
@@ -123,6 +119,22 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private boolean login(String name) throws IOException{
+        if(name.length() == 0){
+            return false;
+        }
+        
+        if(chatInterface.addUser(name)){
+            loggedUser = name;
+            List<String> users = chatInterface.getUsers();
+            for(String u : users){
+                addUser(u);
+            }
+            return true;
+        }
+        return false;
     }
     
     private void logout() {
@@ -152,7 +164,7 @@ public class FXMLDocumentController implements Initializable {
         JFXButton btnDialogOK = new JFXButton("OK");
         btnDialogOK.setOnAction((e)->{
             try {
-                if(addUser(nameField.getText())){
+                if(login(nameField.getText())){
                     dialogStackPane.setVisible(false);
                     dialog.close();
 
