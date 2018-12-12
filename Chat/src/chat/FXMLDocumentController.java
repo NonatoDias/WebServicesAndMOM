@@ -79,6 +79,8 @@ public class FXMLDocumentController implements Initializable {
     private ChatInterface chatInterface = null;
     private boolean isLogged = false;
     
+    private Thread tReceiveMsg = null;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         scrollUsers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -162,6 +164,7 @@ public class FXMLDocumentController implements Initializable {
             Label u = (Label) source.getChildren().get(1);
             remittee = u.getText();
             labelRemittee.setText(remittee);
+            clearMessages();
             System.out.println(u.getText());
         });
         vbox.getChildren().add(groupUser);
@@ -194,8 +197,8 @@ public class FXMLDocumentController implements Initializable {
             return;
         }
          
-        if(chatInterface.sendMessage(loggedUser, remittee, msg)){
-            addMessage(remittee + ": "+ msg, who);
+        if(chatInterface.sendMessage(loggedUser, remittee, remittee + ": "+msg)){
+            addMessage(msg, who);
         }
     }
     
@@ -208,18 +211,27 @@ public class FXMLDocumentController implements Initializable {
             loggedUser = name;
             labelMe.setText("Eu: " + name);
             sync();
-            /*Thread tReceiveMsg = new Thread(()->{
+            tReceiveMsg = new Thread(()->{
+                System.out.println("chat.FXMLDocumentController.login()_______");
                 while (true) {
                     String msg = chatInterface.receiveMessage(name);
-                    if(msg.length()>0){
-                        Platform.runLater(()->{
-                            addMessage(msg, 1);
-                        });
+                    try {
+                        if(msg.length()>0){
+                            Platform.runLater(()->{
+                                addMessage(msg, 1);
+                            });
+                        }
+                    } catch (Exception e) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
             tReceiveMsg.setDaemon(true);
-            tReceiveMsg.start();*/
+            tReceiveMsg.start();
             
             return true;
         }
@@ -229,6 +241,9 @@ public class FXMLDocumentController implements Initializable {
     private void logout() {
         chatInterface.removeUser(loggedUser);
         clearUsers();
+        loggedUser = "";
+        tReceiveMsg.interrupt();
+        clearMessages();
         showLoginForm();
     }
     

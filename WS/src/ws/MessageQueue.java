@@ -22,6 +22,8 @@ public class MessageQueue {
     
     public void init() throws NamingException, JMSException, MalformedURLException{
         handler = new QueueHandler();
+        handler.log("\nMessageQueue");
+        handler = new QueueHandler();
         handler.initSession();
         handler.startQConnection();
     }
