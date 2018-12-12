@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import javax.jms.JMSException;
 import javax.jws.WebService;
 import javax.naming.NamingException;
+import ws.MessageQueue;
 import ws.UserQueue;
 import ws.util.WsUtil;
 
@@ -21,9 +22,10 @@ import ws.util.WsUtil;
 @WebService(endpointInterface = "ws.services.ChatInterface")
 public class ChatImpl implements ChatInterface{
     UserQueue userQ = null;
+    MessageQueue msgQ = null;
 
     public ChatImpl() {
-        createUserQueue();
+        createQueues();
     }
 
     @Override
@@ -62,24 +64,40 @@ public class ChatImpl implements ChatInterface{
     @Override
     public Boolean sendMessage(String from, String to, String message) {
         WsUtil.log("Mensagem from "+from + " to "+ to + ": "+ message);
-        return null;
+        try {
+            msgQ.addMessage(to, message);
+            return true;
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
-    public String[] receiveMessage(String user) {
-        return null;
+    public String receiveMessage(String user) {
+        try {
+            return msgQ.getMessage(user);
+             
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
-    public void createUserQueue(){
+    public void createQueues(){
         try {
             userQ = new UserQueue();
             userQ.init();
-            userQ.getAllUsers();
+            
+            msgQ = new MessageQueue();
+            msgQ.init();
             
         } catch (Exception e) {
             e.printStackTrace();
             try {
                 userQ.close();
+                msgQ.close();
                 
             } catch (Exception e2) {
                 e2.printStackTrace();

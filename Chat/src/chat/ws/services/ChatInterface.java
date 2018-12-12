@@ -33,10 +33,52 @@ public interface ChatInterface {
      */
     @WebMethod
     @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "addUser", targetNamespace = "http://services.ws/", className = "ws.services.AddUser")
+    @ResponseWrapper(localName = "addUserResponse", targetNamespace = "http://services.ws/", className = "ws.services.AddUserResponse")
+    @Action(input = "http://services.ws/ChatInterface/addUserRequest", output = "http://services.ws/ChatInterface/addUserResponse")
+    public Boolean addUser(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
+     * @return
+     *     returns java.util.List<java.lang.String>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getUsers", targetNamespace = "http://services.ws/", className = "ws.services.GetUsers")
+    @ResponseWrapper(localName = "getUsersResponse", targetNamespace = "http://services.ws/", className = "ws.services.GetUsersResponse")
+    @Action(input = "http://services.ws/ChatInterface/getUsersRequest", output = "http://services.ws/ChatInterface/getUsersResponse")
+    public List<String> getUsers();
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.Boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "removeUser", targetNamespace = "http://services.ws/", className = "ws.services.RemoveUser")
     @ResponseWrapper(localName = "removeUserResponse", targetNamespace = "http://services.ws/", className = "ws.services.RemoveUserResponse")
     @Action(input = "http://services.ws/ChatInterface/removeUserRequest", output = "http://services.ws/ChatInterface/removeUserResponse")
     public Boolean removeUser(
+        @WebParam(name = "arg0", targetNamespace = "")
+        String arg0);
+
+    /**
+     * 
+     * @param arg0
+     * @return
+     *     returns java.lang.String
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "receiveMessage", targetNamespace = "http://services.ws/", className = "ws.services.ReceiveMessage")
+    @ResponseWrapper(localName = "receiveMessageResponse", targetNamespace = "http://services.ws/", className = "ws.services.ReceiveMessageResponse")
+    @Action(input = "http://services.ws/ChatInterface/receiveMessageRequest", output = "http://services.ws/ChatInterface/receiveMessageResponse")
+    public String receiveMessage(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0);
 
@@ -60,47 +102,5 @@ public interface ChatInterface {
         String arg1,
         @WebParam(name = "arg2", targetNamespace = "")
         String arg2);
-
-    /**
-     * 
-     * @param arg0
-     * @return
-     *     returns java.util.List<java.lang.String>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "receiveMessage", targetNamespace = "http://services.ws/", className = "ws.services.ReceiveMessage")
-    @ResponseWrapper(localName = "receiveMessageResponse", targetNamespace = "http://services.ws/", className = "ws.services.ReceiveMessageResponse")
-    @Action(input = "http://services.ws/ChatInterface/receiveMessageRequest", output = "http://services.ws/ChatInterface/receiveMessageResponse")
-    public List<String> receiveMessage(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
-
-    /**
-     * 
-     * @param arg0
-     * @return
-     *     returns java.lang.Boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "addUser", targetNamespace = "http://services.ws/", className = "ws.services.AddUser")
-    @ResponseWrapper(localName = "addUserResponse", targetNamespace = "http://services.ws/", className = "ws.services.AddUserResponse")
-    @Action(input = "http://services.ws/ChatInterface/addUserRequest", output = "http://services.ws/ChatInterface/addUserResponse")
-    public Boolean addUser(
-        @WebParam(name = "arg0", targetNamespace = "")
-        String arg0);
-
-    /**
-     * 
-     * @return
-     *     returns java.util.List<java.lang.String>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getUsers", targetNamespace = "http://services.ws/", className = "ws.services.GetUsers")
-    @ResponseWrapper(localName = "getUsersResponse", targetNamespace = "http://services.ws/", className = "ws.services.GetUsersResponse")
-    @Action(input = "http://services.ws/ChatInterface/getUsersRequest", output = "http://services.ws/ChatInterface/getUsersResponse")
-    public List<String> getUsers();
 
 }

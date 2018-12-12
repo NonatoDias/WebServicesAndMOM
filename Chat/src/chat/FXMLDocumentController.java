@@ -9,6 +9,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.javaws.ui.ApplicationIconGenerator;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
@@ -50,6 +51,12 @@ public class FXMLDocumentController implements Initializable {
     private Label label;
     
     @FXML
+    private Label labelRemittee;
+    
+    @FXML
+    private Label labelMe;
+    
+    @FXML
     private JFXTextField jtfMessage;
 
     @FXML
@@ -68,7 +75,9 @@ public class FXMLDocumentController implements Initializable {
     private StackPane dialogStackPane;
    
     private String loggedUser = "";
+    private String remittee = "";
     private ChatInterface chatInterface = null;
+    private boolean isLogged = false;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -85,7 +94,7 @@ public class FXMLDocumentController implements Initializable {
         showLoginForm();
         
         btnAddMessage.setOnAction((e)->{
-            addMessage(jtfMessage.getText(), 0);
+            sendMessage(jtfMessage.getText(), 0);
             jtfMessage.setText("");
         });
         
@@ -95,11 +104,49 @@ public class FXMLDocumentController implements Initializable {
         
         jtfMessage.setOnKeyPressed((KeyEvent e)->{
             if(e.getCode().equals(KeyCode.ENTER)){
-                addMessage(jtfMessage.getText(), 0);
+                sendMessage(jtfMessage.getText(), 0);
                 jtfMessage.setText("");
             }
         });
+       
     }   
+    
+    public void sync(){
+        System.out.println("Server sync ...");
+        Thread tUsers = new Thread(()->{
+            while (true) {
+                if(loggedUser.length() > 0){
+                    try {
+                        Platform.runLater(()->{
+                            try {
+                                showUsers();
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                    }
+                    catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        tUsers.setDaemon(true);
+        tUsers.start();
+    }
+    
+    public void showUsers() throws IOException{
+        List<String> users = chatInterface.getUsers();
+        clearUsers();
+        for(String u : users){
+            addUser(u);
+        }
+    }
     
     public void addUser(String name) throws IOException{
         Group groupUser = (Group) FXMLLoader.load(getClass().getResource("userGroupFXML.fxml"));
@@ -112,19 +159,15 @@ public class FXMLDocumentController implements Initializable {
         
         groupUser.setOnMouseClicked((e)->{
             Group source = (Group) e.getSource();
-            Label u = (Label) source.getChildren().get(1); 
+            Label u = (Label) source.getChildren().get(1);
+            remittee = u.getText();
+            labelRemittee.setText(remittee);
             System.out.println(u.getText());
         });
         vbox.getChildren().add(groupUser);
     }
 
     private void addMessage(String msg, int who) {
-        /*try {
-            addUser();
-            jtfMessage.setText("");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         try {
             Group groupMsg = (Group) FXMLLoader.load(getClass().getResource(
                 who == 1 ? "messageFXML.fxml" : "myMessageFXML.fxml"
@@ -139,11 +182,21 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         Platform.runLater(() -> {
             scrollMessages.layout();
             scrollMessages.setVvalue(1.0);
         });
+    }
+    
+    private void sendMessage(String msg, int who) {
+        if(msg.length() == 0 || remittee.length() == 0){
+            return;
+        }
+         
+        if(chatInterface.sendMessage(loggedUser, remittee, msg)){
+            addMessage(remittee + ": "+ msg, who);
+        }
     }
     
     private boolean login(String name) throws IOException{
@@ -153,10 +206,21 @@ public class FXMLDocumentController implements Initializable {
         
         if(chatInterface.addUser(name)){
             loggedUser = name;
-            List<String> users = chatInterface.getUsers();
-            for(String u : users){
-                addUser(u);
-            }
+            labelMe.setText("Eu: " + name);
+            sync();
+            /*Thread tReceiveMsg = new Thread(()->{
+                while (true) {
+                    String msg = chatInterface.receiveMessage(name);
+                    if(msg.length()>0){
+                        Platform.runLater(()->{
+                            addMessage(msg, 1);
+                        });
+                    }
+                }
+            });
+            tReceiveMsg.setDaemon(true);
+            tReceiveMsg.start();*/
+            
             return true;
         }
         return false;
@@ -171,10 +235,14 @@ public class FXMLDocumentController implements Initializable {
     private void clearUsers(){
         VBox vbox = (VBox) scrollUsers.getContent();
         vbox.setSpacing(7);
-        System.out.println(vbox.getChildren().size());
         vbox.getChildren().setAll();
     }
    
+    private void clearMessages(){
+        VBox vbox = (VBox) scrollMessages.getContent();
+        vbox.setSpacing(10);
+        vbox.getChildren().setAll();
+    }
     
     public void showLoginForm(){
         dialogStackPane.setVisible(true);
@@ -198,6 +266,21 @@ public class FXMLDocumentController implements Initializable {
                 }
             } catch (IOException ex) {
                 showAlert();
+            }
+        });
+        nameField.setOnKeyPressed((KeyEvent e)->{
+            if(e.getCode().equals(KeyCode.ENTER)){
+                try {
+                    if(login(nameField.getText())){
+                        dialogStackPane.setVisible(false);
+                        dialog.close();
+
+                    }else{
+                        showAlert();
+                    }
+                } catch (IOException ex) {
+                    showAlert();
+                }
             }
         });
         content.setActions(btnDialogOK);

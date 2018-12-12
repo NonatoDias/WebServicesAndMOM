@@ -31,14 +31,11 @@
                   </Pane>
                   <JFXToolbar prefHeight="35.0" prefWidth="461.0">
                      <left>
-                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="Nonato" BorderPane.alignment="CENTER" />
+                        <Label fx:id="labelRemittee" alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="." BorderPane.alignment="CENTER" />
                      </left>
                      <right>
-                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="&gt;" BorderPane.alignment="CENTER" />
+                        <Label fx:id="labelMe" alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="." BorderPane.alignment="CENTER" />
                      </right>
-                     <center>
-                        <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="*" BorderPane.alignment="CENTER" />
-                     </center>
                   </JFXToolbar>
                </children>
             </Pane>

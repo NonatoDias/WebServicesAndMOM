@@ -118,7 +118,7 @@ public class QueueHandler {
     public QueueReceiver createReciver(String qName) 
             throws NamingException, JMSException
     {
-        javax.jms.Queue dest = (javax.jms.Queue)context.lookup(qName);
+        javax.jms.Queue dest = (javax.jms.Queue) context.lookup(qName);
         QueueReceiver qreceiver = qsession.createReceiver(dest);
         return qreceiver;
     }

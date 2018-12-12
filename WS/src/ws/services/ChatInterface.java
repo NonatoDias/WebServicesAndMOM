@@ -22,5 +22,5 @@ public interface ChatInterface {
     
     @WebMethod Boolean sendMessage(String from, String to, String message);
     
-    @WebMethod String [] receiveMessage(String user);
+    @WebMethod String receiveMessage(String user);
 }

@@ -5,10 +5,6 @@
  */
 package ws;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.jms.JMSException;
-import javax.naming.NamingException;
 import javax.xml.ws.Endpoint;
 import ws.services.ChatImpl;
 import ws.util.WsUtil;
@@ -28,7 +24,6 @@ public class WS {
     public static void main(String[] args) {
         
         WsUtil.log("Starting Server ...");
-        
         ChatImpl cs = new ChatImpl(); 
         Endpoint.publish(BASE_URL + CHAT_SERVICE, cs);
         WsUtil.log("Listining on "+ BASE_URL + CHAT_SERVICE + "\n");
