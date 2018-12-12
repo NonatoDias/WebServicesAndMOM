@@ -6,8 +6,13 @@
 package ws;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Vector;
+import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.Queue;
 import javax.jms.QueueConnection;
 import javax.jms.QueueConnectionFactory;
 import javax.jms.QueueReceiver;
@@ -87,6 +92,21 @@ public class QueueHandler {
         }
         logErr("Failed to remove destination " + name);
         return false;
+    }
+    
+    public ArrayList<String> getAllDestinations() throws JMSException{
+        Vector destinations = admin.getAllDestinations();
+        Iterator iterator = destinations.iterator();
+        ArrayList users = new ArrayList<String>(); 
+        
+        while (iterator.hasNext()) {
+            Destination destination = (Destination) iterator.next();
+            if (destination instanceof Queue) {
+               Queue queue = (Queue) destination;
+               users.add(queue.getQueueName());
+            } 
+        }
+        return users;
     }
     
     public void startQConnection() throws JMSException{

@@ -5,8 +5,6 @@
 <?import com.jfoenix.controls.JFXToolbar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
@@ -20,6 +18,11 @@
          <children>
             <Pane layoutX="263.0" layoutY="54.0" prefHeight="532.0" prefWidth="461.0" style="-fx-background-color: #efefef;">
                <children>
+                  <ScrollPane fx:id="scrollMessages" layoutX="28.0" layoutY="39.0" prefHeight="406.0" prefWidth="410.0" style="-fx-background-color: #efefef;">
+                     <content>
+                        <VBox prefHeight="402.0" prefWidth="408.0" style="-fx-background-color: #efefef;" />
+                     </content>
+                  </ScrollPane>
                   <Pane layoutY="470.0" prefHeight="62.0" prefWidth="461.0" style="-fx-background-color: white;">
                      <children>
                         <JFXTextField fx:id="jtfMessage" layoutX="38.0" layoutY="9.0" prefHeight="31.0" prefWidth="331.0" />
@@ -37,24 +40,6 @@
                         <Label alignment="CENTER" prefHeight="36.0" prefWidth="116.0" text="*" BorderPane.alignment="CENTER" />
                      </center>
                   </JFXToolbar>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="89.0" layoutY="47.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem" textAlignment="CENTER" textFill="#2c2c2c" />
-                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="21.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/user-1.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="384.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem" textAlignment="CENTER" textFill="#2c2c2c" />
-                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="387.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/user-1.png" />
-                     </image>
-                  </ImageView>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="91.0" layoutY="120.0" prefHeight="45.0" prefWidth="158.0" style="-fx-background-color: white;" text="Test mensagem 2" textAlignment="CENTER" textFill="#2c2c2c" />
-                  <ImageView fitHeight="54.0" fitWidth="60.0" layoutX="23.0" layoutY="115.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/user-1.png" />
-                     </image>
-                  </ImageView>
                </children>
             </Pane>
             <Pane layoutY="54.0" prefHeight="532.0" prefWidth="265.0" style="-fx-background-color: #e1e1e1e;">

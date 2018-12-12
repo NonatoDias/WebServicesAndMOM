@@ -7,6 +7,7 @@ package ws;
 
 import java.io.*;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,18 +27,11 @@ import javax.naming.*;
  */
 public class UserQueue {
     
-    private static String QUEUE_NAME = "queue1";
     private QueueHandler handler = null;
-    private javax.jms.Queue queue;
-    private QueueSender sender = null;
-    private QueueReceiver receiver = null;
     
     public void init() throws NamingException, JMSException, MalformedURLException{
         handler = new QueueHandler();
         handler.createAdmin();
-        /*this.onReceived();
-        sender = handler.createSender(QUEUE_NAME);
-        receiver = handler.createReciver(QUEUE_NAME);*/
     }
     
     public boolean addUser(String user) throws NamingException, JMSException{
@@ -48,27 +42,8 @@ public class UserQueue {
         return handler.removeDestination(user);
     }
     
-    public String [] getAllUsers() throws JMSException{
-        String [] aux = {"A"};
-        return aux; 
-    }
-    
-    public void onReceived() throws NamingException, JMSException{
-        QueueReceiver qreceiver = handler.createReciver(QUEUE_NAME);
-        TextMessage textMessage = null;
-        Thread t = new Thread(()->{
-            while (true) {
-                try {
-                    String text = ((TextMessage) qreceiver.receive()).getText();
-                    handler.log(" Mensagem Recebida: " + text);  
-                
-                } catch (JMSException ex) {
-                   ex.printStackTrace();
-                }
-            }
-        });
-        t.setDaemon(true);
-        t.start();
+    public ArrayList<String> getAllUsers() throws JMSException{
+        return handler.getAllDestinations();
     }
 
     public void close() throws NamingException, JMSException {

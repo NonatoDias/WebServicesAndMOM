@@ -5,6 +5,7 @@
  */
 package ws.services;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jms.JMSException;
@@ -37,9 +38,14 @@ public class ChatImpl implements ChatInterface{
     }
 
     @Override
-    public String[] getUsers() {
-        String [] users = {"nonato", "jose"};
-        return users;
+    public ArrayList<String> getUsers() {
+        try {
+            return userQ.getAllUsers();
+            
+        } catch (JMSException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class ChatImpl implements ChatInterface{
         try {
             userQ = new UserQueue();
             userQ.init();
+            userQ.getAllUsers();
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -62,6 +62,9 @@ public class FXMLDocumentController implements Initializable {
     private ScrollPane scrollUsers;
     
     @FXML
+    private ScrollPane scrollMessages;
+    
+    @FXML
     private StackPane dialogStackPane;
    
     private String loggedUser = "";
@@ -70,6 +73,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         scrollUsers.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollMessages.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         ChatImplService service = new ChatImplService();
         chatInterface = service.getChatImplPort();
        
@@ -81,7 +85,8 @@ public class FXMLDocumentController implements Initializable {
         showLoginForm();
         
         btnAddMessage.setOnAction((e)->{
-            addMessage();
+            addMessage(jtfMessage.getText(), 0);
+            jtfMessage.setText("");
         });
         
         btnLogout.setOnAction((e)->{
@@ -90,7 +95,8 @@ public class FXMLDocumentController implements Initializable {
         
         jtfMessage.setOnKeyPressed((KeyEvent e)->{
             if(e.getCode().equals(KeyCode.ENTER)){
-                addMessage();
+                addMessage(jtfMessage.getText(), 0);
+                jtfMessage.setText("");
             }
         });
     }   
@@ -112,13 +118,32 @@ public class FXMLDocumentController implements Initializable {
         vbox.getChildren().add(groupUser);
     }
 
-    private void addMessage() {
-        try {
-            addUser(jtfMessage.getText());
+    private void addMessage(String msg, int who) {
+        /*try {
+            addUser();
             jtfMessage.setText("");
         } catch (Exception e) {
             e.printStackTrace();
+        }*/
+        try {
+            Group groupMsg = (Group) FXMLLoader.load(getClass().getResource(
+                who == 1 ? "messageFXML.fxml" : "myMessageFXML.fxml"
+            ));
+            ImageView imgView = (ImageView) groupMsg.getChildren().get(0);
+            //imgView.setImage(new Image(getClass().getResourceAsStream("../img/user-3.png")));
+            Label labName = (Label) groupMsg.getChildren().get(1); 
+            labName.setText(msg);
+            VBox vbox = (VBox) scrollMessages.getContent();
+            vbox.setSpacing(10);
+            vbox.getChildren().add(groupMsg);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        
+        Platform.runLater(() -> {
+            scrollMessages.layout();
+            scrollMessages.setVvalue(1.0);
+        });
     }
     
     private boolean login(String name) throws IOException{

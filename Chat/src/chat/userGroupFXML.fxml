@@ -8,9 +8,9 @@
 
 <Group fx:id="groupUser" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="54.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="47.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../img/user-1.png" />
+            <Image url="@../img/user-5.png" />
          </image>
       </ImageView>
       <Label prefHeight="21.0" prefWidth="195.0" style="-fx-padding: 5px 0 0 65px;" text="Nonato Dias" />

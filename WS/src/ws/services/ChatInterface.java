@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ws.services;
+import java.util.ArrayList;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
@@ -15,7 +16,7 @@ import javax.jws.WebService;
 public interface ChatInterface {
     @WebMethod Boolean addUser(String user);
     
-    @WebMethod String [] getUsers();
+    @WebMethod ArrayList<String> getUsers();
     
     @WebMethod Boolean removeUser(String user);
     

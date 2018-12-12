@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
+
+<Group fx:id="groupUser" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+   <children>
+      <ImageView fitHeight="39.0" fitWidth="44.0" layoutX="10.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/user-5.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="57.0" layoutY="5.0" prefHeight="48.0" prefWidth="221.0" styleClass="label-message" stylesheets="@messagefxml.css" text="Test mensagem" textAlignment="CENTER" textFill="#2c2c2c">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label layoutX="278.0" layoutY="35.0" prefHeight="21.0" prefWidth="28.0" />
+   </children>
+</Group>

@@ -1,0 +1,13 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+
+.label-message{
+    -fx-background-color:  white;
+    -fx-padding: 5px 5px 15px 5px;
+    -fx-background-radius: 50px;
+}
